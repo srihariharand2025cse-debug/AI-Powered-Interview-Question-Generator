@@ -5,3 +5,7 @@ venv/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Large downloaded datasets (keep the sample)
+data/*.csv
+!data/sample_questions.csv
