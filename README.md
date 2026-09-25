@@ -6,12 +6,16 @@ A simple Python project that will generate interview questions based on job role
 ```
 AI-Powered Interview Question Generator/
 ├─ data/
-│   └─ sample_questions.csv      ← 20-question starter dataset
+│   ├─ sample_questions.csv      ← 20-question starter dataset
+│   └─ cleaned_questions.csv     ← Day 3: standardized & cleaned dataset
 ├─ src/
 │   ├─ __init__.py
 │   ├─ main.py                   ← entry point
 │   ├─ data_loader.py            ← Day 2: load & validate CSV
+│   ├─ data_cleaner.py           ← Day 3: text cleaning, EDA & metrics
 │   └─ download_kaggle.py        ← optional Kaggle downloader
+├─ tests/
+│   └─ test_cleaner.py           ← Day 3: test suite for cleaning & EDA
 ├─ requirements.txt
 ├─ .gitignore
 └─ README.md
@@ -28,6 +32,8 @@ The project ships with a **20‑question sample** (`data/sample_questions.csv`).
 | `Category` | Topic area (Technical, Behavioral, Motivation, …) |
 | `Role` | Target role (General, Software Engineer, HR, …) |
 | `Difficulty` | Easy · Medium · Hard |
+| `Question_Words` | (Cleaned) Word count of the question |
+| `Answer_Words` | (Cleaned) Word count of the ideal answer |
 
 ### Using the full Kaggle dataset (250 K questions)
 
@@ -52,9 +58,12 @@ pip install -r requirements.txt
 
 # 4️⃣ Run the project
 python -m src.main
+
+# 5️⃣ Run unit tests
+python tests/test_cleaner.py
 ```
 
-You should see a dataset summary and sample questions printed to the console.
+You should see an exploratory data analysis (EDA) report, text cleaning summary, and sample questions printed to the console.
 
 ---
 
@@ -64,4 +73,6 @@ You should see a dataset summary and sample questions printed to the console.
 | --- | --- | --- |
 | 1 | Project skeleton | ✅ |
 | 2 | Load an interview‑question dataset | ✅ |
-| 3‑5 | Explore and clean the data | ⬜ |
+| 3 | Explore & clean the data (EDA, text normalization, deduplication, metrics) | ✅ |
+| 4 | Keyword & Skill-based Question Filtering / Categorization | ⬜ |
+| 5 | Advanced Preprocessing / TF-IDF & Embeddings Preparation | ⬜ |
