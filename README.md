@@ -7,15 +7,17 @@ A simple Python project that will generate interview questions based on job role
 AI-Powered Interview Question Generator/
 ├─ data/
 │   ├─ sample_questions.csv      ← 20-question starter dataset
-│   └─ cleaned_questions.csv     ← Day 3: standardized & cleaned dataset
+│   └─ cleaned_questions.csv     ← Day 3 & 4: cleaned & skill-tagged dataset
 ├─ src/
 │   ├─ __init__.py
 │   ├─ main.py                   ← entry point
 │   ├─ data_loader.py            ← Day 2: load & validate CSV
 │   ├─ data_cleaner.py           ← Day 3: text cleaning, EDA & metrics
+│   ├─ question_filter.py        ← Day 4: keyword & skill filtering / generator
 │   └─ download_kaggle.py        ← optional Kaggle downloader
 ├─ tests/
-│   └─ test_cleaner.py           ← Day 3: test suite for cleaning & EDA
+│   ├─ test_cleaner.py           ← Day 3: test suite for cleaning & EDA
+│   └─ test_filter.py            ← Day 4: test suite for filtering & skills
 ├─ requirements.txt
 ├─ .gitignore
 └─ README.md
@@ -34,6 +36,7 @@ The project ships with a **20‑question sample** (`data/sample_questions.csv`).
 | `Difficulty` | Easy · Medium · Hard |
 | `Question_Words` | (Cleaned) Word count of the question |
 | `Answer_Words` | (Cleaned) Word count of the ideal answer |
+| `Skills` | (Day 4) Extracted technical & soft skill tags |
 
 ### Using the full Kaggle dataset (250 K questions)
 
@@ -61,9 +64,10 @@ python -m src.main
 
 # 5️⃣ Run unit tests
 python tests/test_cleaner.py
+python tests/test_filter.py
 ```
 
-You should see an exploratory data analysis (EDA) report, text cleaning summary, and sample questions printed to the console.
+You should see an exploratory data analysis (EDA) report, text cleaning summary, skill tagging report, and sample filtered mock interview questions printed to the console.
 
 ---
 
@@ -74,5 +78,5 @@ You should see an exploratory data analysis (EDA) report, text cleaning summary,
 | 1 | Project skeleton | ✅ |
 | 2 | Load an interview‑question dataset | ✅ |
 | 3 | Explore & clean the data (EDA, text normalization, deduplication, metrics) | ✅ |
-| 4 | Keyword & Skill-based Question Filtering / Categorization | ⬜ |
+| 4 | Keyword & Skill-based Question Filtering / Categorization | ✅ |
 | 5 | Advanced Preprocessing / TF-IDF & Embeddings Preparation | ⬜ |
