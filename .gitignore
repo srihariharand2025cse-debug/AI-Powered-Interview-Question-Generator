@@ -6,6 +6,8 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Large downloaded datasets (keep the sample)
+# Large downloaded datasets and generated caches (keep the sample)
 data/*.csv
 !data/sample_questions.csv
+data/*.npz
+
