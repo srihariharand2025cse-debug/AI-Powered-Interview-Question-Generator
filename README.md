@@ -6,21 +6,24 @@ A simple Python project that will generate interview questions based on job role
 ```
 AI-Powered Interview Question Generator/
 ├─ data/
-│   ├─ sample_questions.csv      ← 20-question starter dataset
-│   ├─ cleaned_questions.csv     ← Day 3 & 4: cleaned & skill-tagged dataset
-│   └─ question_embeddings.npz   ← Day 5: precomputed TF-IDF & dense embeddings cache
+│   ├─ sample_questions.csv             ← 20-question starter dataset
+│   ├─ cleaned_questions.csv            ← Day 3 & 4: cleaned & skill-tagged dataset
+│   ├─ question_embeddings.npz          ← Day 5: precomputed TF-IDF & dense embeddings cache
+│   └─ interview_guide_senior_backend.md ← Day 6: generated stage-sequenced interview guide
 ├─ src/
 │   ├─ __init__.py
-│   ├─ main.py                   ← entry point
-│   ├─ data_loader.py            ← Day 2: load & validate CSV
-│   ├─ data_cleaner.py           ← Day 3: text cleaning, EDA & metrics
-│   ├─ question_filter.py        ← Day 4: keyword & skill filtering / generator
-│   ├─ text_embeddings.py        ← Day 5: NLP preprocessing, TF-IDF & embeddings
-│   └─ download_kaggle.py        ← optional Kaggle downloader
+│   ├─ main.py                          ← entry point
+│   ├─ data_loader.py                   ← Day 2: load & validate CSV
+│   ├─ data_cleaner.py                  ← Day 3: text cleaning, EDA & metrics
+│   ├─ question_filter.py               ← Day 4: keyword & skill filtering / generator
+│   ├─ text_embeddings.py               ← Day 5: NLP preprocessing, TF-IDF & embeddings
+│   ├─ semantic_generator.py            ← Day 6: hybrid match ranking & dynamic question generation
+│   └─ download_kaggle.py               ← optional Kaggle downloader
 ├─ tests/
-│   ├─ test_cleaner.py           ← Day 3: test suite for cleaning & EDA
-│   ├─ test_filter.py            ← Day 4: test suite for filtering & skills
-│   └─ test_embeddings.py        ← Day 5: test suite for preprocessing & TF-IDF
+│   ├─ test_cleaner.py                  ← Day 3: test suite for cleaning & EDA
+│   ├─ test_filter.py                   ← Day 4: test suite for filtering & skills
+│   ├─ test_embeddings.py               ← Day 5: test suite for preprocessing & TF-IDF
+│   └─ test_semantic_generator.py       ← Day 6: test suite for hybrid ranking & dynamic generation
 ├─ requirements.txt
 ├─ .gitignore
 └─ README.md
@@ -69,9 +72,10 @@ python -m src.main
 python tests/test_cleaner.py
 python tests/test_filter.py
 python tests/test_embeddings.py
+python tests/test_semantic_generator.py
 ```
 
-You should see an exploratory data analysis (EDA) report, text cleaning summary, skill tagging report, sample filtered mock interview questions, TF-IDF n-gram feature extraction, natural language semantic search results, and embedding exports printed to the console.
+You should see an exploratory data analysis (EDA) report, text cleaning summary, skill tagging report, sample filtered mock interview questions, TF-IDF n-gram feature extraction, natural language semantic search results, embedding exports, multi-factor hybrid match ranking with MMR diversity, and stage-sequenced dynamic interview plans with evaluation rubrics and markdown guide export printed to the console.
 
 ---
 
@@ -84,4 +88,4 @@ You should see an exploratory data analysis (EDA) report, text cleaning summary,
 | 3 | Explore & clean the data (EDA, text normalization, deduplication, metrics) | ✅ |
 | 4 | Keyword & Skill-based Question Filtering / Categorization | ✅ |
 | 5 | Advanced Preprocessing / TF-IDF & Embeddings Preparation | ✅ |
-| 6 | Semantic Match Ranking & Dynamic Question Generation | ⬜ |
+| 6 | Semantic Match Ranking & Dynamic Question Generation | ✅ |

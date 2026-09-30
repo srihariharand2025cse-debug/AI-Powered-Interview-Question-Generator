@@ -6,6 +6,7 @@ Day 2: Load the dataset                                           [done]
 Day 3: Explore and clean the data (EDA, metrics, deduplication)   [done]
 Day 4: Keyword & Skill-based Question Filtering / Categorization  [done]
 Day 5: Advanced Preprocessing / TF-IDF & Embeddings Preparation   [done]
+Day 6: Semantic Match Ranking & Dynamic Question Generation        [done]
 """
 
 from __future__ import annotations
@@ -36,6 +37,14 @@ from src.question_filter import (
 from src.text_embeddings import (
     SemanticQuestionSearcher,
     format_search_results,
+)
+from src.semantic_generator import (
+    JobProfile,
+    parse_job_profile,
+    HybridMatchRanker,
+    DynamicQuestionGenerator,
+    format_interview_guide,
+    export_markdown_interview_guide,
 )
 
 
@@ -130,8 +139,58 @@ def main() -> None:
     embeddings_file = searcher.export_embeddings()
     print(f"\n    Embeddings matrix and metadata exported to: {embeddings_file}")
 
+    # -- Day 6: Semantic Match Ranking & Dynamic Question Generation --
     print("\n" + "=" * 70)
-    print("[OK] Day 5 Advanced Preprocessing / TF-IDF & Embeddings Preparation complete!\n")
+    print("[10] Day 6: Multi-Factor Hybrid Ranking with MMR Diversity ...")
+    ranker = HybridMatchRanker(tagged_df, searcher=searcher)
+
+    target_profile = parse_job_profile(
+        "Senior Backend Software Engineer with deep experience in distributed systems, SQL databases, and concurrency"
+    )
+    print(f"    • Target Role        : {target_profile.role} ({target_profile.seniority} Level)")
+    print(f"    • Target Skills      : {', '.join(target_profile.target_skills)}")
+    print(f"    • Difficulty Weights : {target_profile.difficulty_preferences}\n")
+
+    ranked_results = ranker.rank(
+        profile_or_query=target_profile,
+        top_k=4,
+        apply_mmr=True,
+        diversity_lambda=0.65,
+    )
+
+    print("    Top Ranked Questions by Hybrid Score (Semantic + Skill + Role + Difficulty + MMR):")
+    print("    " + "-" * 62)
+    for _, r_row in ranked_results.iterrows():
+        comp_score = f"{r_row['Composite_Score'] * 100:.1f}%"
+        sem_score = f"{r_row['Semantic_Score'] * 100:.1f}%"
+        skill_score = f"{r_row['Skill_Score'] * 100:.1f}%"
+        print(
+            f"    #{r_row['Rank']} [{comp_score}] [{r_row['Difficulty']}] {r_row['Question']}\n"
+            f"       Scores -> Sem: {sem_score} | Skill: {skill_score} | Role: {r_row['Role']}\n"
+            f"       Skills : {r_row['Skills']} | Salient Features: {r_row['Top_Keywords']}"
+        )
+    print()
+
+    # -- Day 6 Demo B: Dynamic Stage-Sequenced Interview Generation --
+    print("[11] Day 6: Dynamic Stage-Sequenced Interview Plan with Rubrics & Probing ...")
+    generator = DynamicQuestionGenerator(tagged_df, ranker=ranker)
+    dynamic_interview = generator.generate_interview(
+        profile_or_query=target_profile,
+        num_questions=4,
+        round_type="balanced",
+        include_rubrics=True,
+    )
+    print(format_interview_guide(dynamic_interview, profile=target_profile))
+
+    # -- Day 6 Demo C: Export Markdown Interview Guide --
+    guide_export_path = "data/interview_guide_senior_backend.md"
+    saved_guide = export_markdown_interview_guide(
+        dynamic_interview, filepath=guide_export_path, profile=target_profile
+    )
+    print(f"\n[12] Interviewer Guide & Evaluation Plan exported to: {saved_guide}")
+
+    print("\n" + "=" * 70)
+    print("[OK] Day 6 Semantic Match Ranking & Dynamic Question Generation complete!\n")
 
 
 if __name__ == "__main__":
